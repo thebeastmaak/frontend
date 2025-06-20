@@ -13,7 +13,7 @@ async function askQuestion() {
   appendMessage("You", question);
   questionInput.value = "";
 
-  const res = await fetch("https://your-backend-url.onrender.com/ask", {
+  const res = await fetch("https://backend-epjf.onrender.com/ask", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question }),

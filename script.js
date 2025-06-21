@@ -2,28 +2,25 @@ document.getElementById('askBtn').addEventListener('click', async () => {
   const question = document.getElementById('questionInput').value.trim();
   if (!question) return alert('Please enter a question.');
 
-  const answerElem = document.getElementById('answerText');
-  answerElem.textContent = 'Loading...';
+  document.getElementById('answerText').textContent = 'Loading...';
 
   try {
-    // Use full backend URL if hosted remotely, e.g.:
-    // const backendUrl = 'https://backend-88jt.onrender.com/ask';
-    // For local or proxy, '/ask' is fine.
     const res = await fetch('https://backend-88jt.onrender.com/ask', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ question })
-});
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
 
-    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    if (!res.ok) throw new Error('Network response was not ok');
 
     const data = await res.json();
-    answerElem.textContent = data.answer || 'No answer returned.';
+    document.getElementById('answerText').textContent = data.answer || 'No answer returned.';
   } catch (err) {
     console.error('Error:', err);
-    answerElem.textContent = 'Error getting response.';
+    document.getElementById('answerText').textContent = 'Error getting response.';
   }
 });
+
 
 // Voice recognition with feature detection
 document.getElementById('voiceBtn').addEventListener('click', () => {

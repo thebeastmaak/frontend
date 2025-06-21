@@ -2,7 +2,7 @@ const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 
 // Your backend base URL (change this to your Render backend)
-const BACKEND_URL = "https://your-backend.onrender.com";
+const BACKEND_URL = "https://backend-88jt.onrender.com";
 
 function appendMessage(text, sender) {
   const message = document.createElement("div");

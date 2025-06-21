@@ -2,20 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI Chatbot</title>
+  <title>AI Chat Assistant</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>AI Chatbot</h1>
-    <div id="chat-box"></div>
+    <h1>AI Chat Assistant</h1>
 
-    <form id="chat-form">
-      <input type="text" id="question" placeholder="Ask a question..." required />
-      <button type="submit">Send</button>
-      <button type="button" id="voice-btn" title="Speak your question 🎤">🎤</button>
-    </form>
+    <div class="input-group">
+      <textarea id="questionInput" placeholder="Ask me anything..." rows="4"></textarea>
+      <button id="askBtn">Ask</button>
+      <button id="voiceBtn">🎤 Speak</button>
+    </div>
+
+    <div id="answerBox" class="answer-box">
+      <h3>Answer:</h3>
+      <p id="answerText">Your answer will appear here...</p>
+    </div>
   </div>
 
   <script src="script.js"></script>

@@ -1,9 +1,8 @@
 const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
-const pdfInput = document.getElementById("pdf");
 
-// Your backend base URL (change this to your Render-hosted API)
-const BACKEND_URL = "https://your-render-backend.onrender.com";
+// Your backend base URL (change this to your Render backend)
+const BACKEND_URL = "https://your-backend.onrender.com";
 
 function appendMessage(text, sender) {
   const message = document.createElement("div");
@@ -38,29 +37,6 @@ async function sendMessage() {
   }
 }
 
-async function uploadPdf() {
-  const file = pdfInput.files[0];
-  if (!file) {
-    alert("Please select a PDF file.");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("pdf", file);
-
-  try {
-    const res = await fetch(`${BACKEND_URL}/upload-pdf`, {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    alert(data.message || "PDF uploaded successfully!");
-  } catch (error) {
-    alert("Failed to upload PDF.");
-    console.error(error);
-  }
-}
-
 // Voice Input
 function startVoice() {
   const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -87,7 +63,7 @@ function speakText(text) {
   speechSynthesis.speak(utterance);
 }
 
-// Enter key to send
+// Enter key sends message
 userInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") sendMessage();
 });

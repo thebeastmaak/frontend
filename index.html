@@ -1,20 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PDF Chatbot</title>
-  <style>
-    body { font-family: sans-serif; margin: 2em; background: #f0f0f0; }
-    #chatbox { width: 100%; height: 300px; overflow-y: scroll; background: white; padding: 1em; border-radius: 10px; }
-    #question { width: 80%; padding: 10px; }
-    #askBtn, #voiceBtn { padding: 10px; margin-left: 5px; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF Voice Chatbot</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Chat with PDF & GPT</h2>
-  <div id="chatbox"></div><br>
-  <input type="text" id="question" placeholder="Ask something..." />
-  <button id="askBtn">Ask</button>
-  <button id="voiceBtn">🎤 Speak</button>
+  <div class="container">
+    <h1>📄🗣 PDF Voice Chatbot</h1>
+
+    <div class="upload-section">
+      <label for="pdf">Upload PDF:</label>
+      <input type="file" id="pdf" accept=".pdf" />
+      <button onclick="uploadPdf()">Upload</button>
+    </div>
+
+    <div class="chat-box" id="chat-box">
+      <!-- Messages will appear here -->
+    </div>
+
+    <div class="input-section">
+      <input type="text" id="user-input" placeholder="Ask a question..." />
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="startVoice()">🎤 Speak</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

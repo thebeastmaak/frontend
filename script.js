@@ -1,25 +1,32 @@
 document.getElementById('askBtn').addEventListener('click', async () => {
-  const question = document.getElementById('questionInput').value.trim();
-  if (!question) return alert('Please enter a question.');
+  const question = document.getElementById('questionInput').value;
+  const pdfFile = document.getElementById('pdfInput').files[0];
+  const answerText = document.getElementById('answerText');
 
-  document.getElementById('answerText').textContent = 'Loading...';
+  if (!question || !pdfFile) {
+    alert('Please enter a question and upload a PDF file.');
+    return;
+  }
+
+  answerText.textContent = 'Loading...';
+
+  const formData = new FormData();
+  formData.append('question', question);
+  formData.append('pdf', pdfFile);
 
   try {
-    const res = await fetch('https://backend-88jt.onrender.com/ask', {
+    const res = await fetch('https://your-backend-url.onrender.com/ask', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question })
+      body: formData,
     });
-
-    if (!res.ok) throw new Error('Network response was not ok');
-
     const data = await res.json();
-    document.getElementById('answerText').textContent = data.answer || 'No answer returned.';
-  } catch (err) {
-    console.error('Error:', err);
-    document.getElementById('answerText').textContent = 'Error getting response.';
+    answerText.textContent = data.answer || 'No answer returned.';
+  } catch (error) {
+    console.error(error);
+    answerText.textContent = 'Error getting response.';
   }
 });
+
 
 
 // Voice recognition with feature detection

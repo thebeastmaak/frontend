@@ -1,50 +1,23 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const axios = require('axios');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AI Chatbot</h1>
+    <div id="chat-box"></div>
 
-dotenv.config();
-const app = express();
+    <form id="chat-form">
+      <input type="text" id="question" placeholder="Ask a question..." required />
+      <button type="submit">Send</button>
+      <button type="button" id="voice-btn" title="Speak your question 🎤">🎤</button>
+    </form>
+  </div>
 
-app.use(express.json());
-app.use(express.static('public'));
-
-app.post('/ask', async (req, res) => {
-  try {
-    const question = req.body.question;
-
-    if (!question) {
-      return res.status(400).json({ error: 'Missing question' });
-    }
-
-    const prompt = `
-You are a helpful assistant. Please answer the user's question based on your general knowledge.
-Question: ${question}
-Answer:
-`;
-
-    const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
-      {
-        model: 'gpt-4',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7,
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const answer = response.data.choices[0].message.content.trim();
-    res.json({ answer });
-
-  } catch (err) {
-    console.error('OpenAI Error:', err.response?.data || err.message);
-    res.status(500).json({ error: 'Failed to get response from OpenAI' });
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Server running at http://localhost:${PORT}`));
+  <script src="script.js"></script>
+</body>
+</html>

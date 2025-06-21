@@ -2,26 +2,38 @@ document.getElementById('askBtn').addEventListener('click', async () => {
   const question = document.getElementById('questionInput').value.trim();
   if (!question) return alert('Please enter a question.');
 
-  document.getElementById('answerText').textContent = 'Loading...';
+  const answerElem = document.getElementById('answerText');
+  answerElem.textContent = 'Loading...';
 
   try {
+    // Use full backend URL if hosted remotely, e.g.:
+    // const backendUrl = 'https://backend-88jt.onrender.com/ask';
+    // For local or proxy, '/ask' is fine.
     const res = await fetch('/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question })
+      body: JSON.stringify({ question }),
     });
 
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
     const data = await res.json();
-    document.getElementById('answerText').textContent = data.answer || 'No answer returned.';
+    answerElem.textContent = data.answer || 'No answer returned.';
   } catch (err) {
     console.error('Error:', err);
-    document.getElementById('answerText').textContent = 'Error getting response.';
+    answerElem.textContent = 'Error getting response.';
   }
 });
 
-// Voice recognition
+// Voice recognition with feature detection
 document.getElementById('voiceBtn').addEventListener('click', () => {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert('Sorry, your browser does not support Speech Recognition.');
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
   recognition.lang = 'en-US';
   recognition.start();
 

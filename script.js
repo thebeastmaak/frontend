@@ -1,5 +1,7 @@
+const backendUrl = 'https://backend-88jt.onrender.com'; // ✅ Replace with your actual Render backend URL
+
 document.getElementById('askBtn').addEventListener('click', async () => {
-  const question = document.getElementById('questionInput').value;
+  const question = document.getElementById('questionInput').value.trim();
   const pdfFile = document.getElementById('pdfInput').files[0];
   const answerText = document.getElementById('answerText');
 
@@ -15,19 +17,23 @@ document.getElementById('askBtn').addEventListener('click', async () => {
   formData.append('pdf', pdfFile);
 
   try {
-    const res = await fetch('https://your-backend-url.onrender.com/ask', {
+    const res = await fetch(`${backendUrl}/ask`, {
       method: 'POST',
       body: formData,
     });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Server Error: ${res.status} - ${errText}`);
+    }
+
     const data = await res.json();
     answerText.textContent = data.answer || 'No answer returned.';
   } catch (error) {
-    console.error(error);
+    console.error('Fetch error:', error);
     answerText.textContent = 'Error getting response.';
   }
 });
-
-
 
 // Voice recognition with feature detection
 document.getElementById('voiceBtn').addEventListener('click', () => {

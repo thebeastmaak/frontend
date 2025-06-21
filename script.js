@@ -9,11 +9,11 @@ document.getElementById('askBtn').addEventListener('click', async () => {
     // Use full backend URL if hosted remotely, e.g.:
     // const backendUrl = 'https://backend-88jt.onrender.com/ask';
     // For local or proxy, '/ask' is fine.
-    const res = await fetch('/ask', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question }),
-    });
+    const res = await fetch('https://backend-88jt.onrender.com/ask', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ question })
+});
 
     if (!res.ok) throw new Error(`Server error: ${res.status}`);
 

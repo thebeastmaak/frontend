@@ -52,3 +52,22 @@ document.getElementById('voiceBtn').addEventListener('click', () => {
     alert('Speech recognition error: ' + event.error);
   };
 });
+
+// 🔊 Voice read answer
+document.getElementById('listenBtn').addEventListener('click', () => {
+  const answerText = document.getElementById('answerText').textContent;
+  if (!answerText || answerText === 'Your answer will appear here...' || answerText === 'Loading...') {
+    alert('No answer to read.');
+    return;
+  }
+
+  // Cancel any ongoing speech synthesis
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(answerText);
+  utterance.lang = 'en-US';
+  utterance.rate = 1;
+  utterance.pitch = 1;
+
+  window.speechSynthesis.speak(utterance);
+});

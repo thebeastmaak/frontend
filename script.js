@@ -1,4 +1,4 @@
-const backendUrl = 'https://backend-88jt.onrender.com'; // ✅ your Render backend URL
+const backendUrl = 'https://backend-88jt.onrender.com'; // your backend URL
 
 document.getElementById('askBtn').addEventListener('click', async () => {
   const question = document.getElementById('questionInput').value.trim();
@@ -25,13 +25,19 @@ document.getElementById('askBtn').addEventListener('click', async () => {
 
     const data = await res.json();
     answerText.textContent = data.answer || 'No answer returned.';
+
+    // Automatically read answer aloud
+    if (data.answer) {
+      const utterance = new SpeechSynthesisUtterance(data.answer);
+      speechSynthesis.speak(utterance);
+    }
   } catch (error) {
     console.error('Fetch error:', error);
     answerText.textContent = 'Error getting response.';
   }
 });
 
-// 🎤 Voice recognition
+// 🎤 Voice recognition (unchanged)
 document.getElementById('voiceBtn').addEventListener('click', () => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -51,23 +57,4 @@ document.getElementById('voiceBtn').addEventListener('click', () => {
   recognition.onerror = event => {
     alert('Speech recognition error: ' + event.error);
   };
-});
-
-// 🔊 Voice read answer
-document.getElementById('listenBtn').addEventListener('click', () => {
-  const answerText = document.getElementById('answerText').textContent;
-  if (!answerText || answerText === 'Your answer will appear here...' || answerText === 'Loading...') {
-    alert('No answer to read.');
-    return;
-  }
-
-  // Cancel any ongoing speech synthesis
-  window.speechSynthesis.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(answerText);
-  utterance.lang = 'en-US';
-  utterance.rate = 1;
-  utterance.pitch = 1;
-
-  window.speechSynthesis.speak(utterance);
 });

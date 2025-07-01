@@ -1,5 +1,6 @@
 const backendUrl = 'https://backend-88jt.onrender.com'; // your backend URL
 
+// Handle Ask button
 document.getElementById('askBtn').addEventListener('click', async () => {
   const question = document.getElementById('questionInput').value.trim();
   const answerText = document.getElementById('answerText');
@@ -26,18 +27,28 @@ document.getElementById('askBtn').addEventListener('click', async () => {
     const data = await res.json();
     answerText.textContent = data.answer || 'No answer returned.';
 
-    // Automatically read answer aloud
+    // ✅ Speak answer aloud
     if (data.answer) {
-      const utterance = new SpeechSynthesisUtterance(data.answer);
-      speechSynthesis.speak(utterance);
+      speakAnswer(data.answer);
     }
+
   } catch (error) {
     console.error('Fetch error:', error);
     answerText.textContent = 'Error getting response.';
   }
 });
 
-// 🎤 Voice recognition (unchanged)
+// ✅ Speak function
+function speakAnswer(text) {
+  if (!('speechSynthesis' in window)) return;
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  window.speechSynthesis.cancel(); // Stop any previous speech
+  window.speechSynthesis.speak(utterance);
+}
+
+// 🎤 Voice recognition
 document.getElementById('voiceBtn').addEventListener('click', () => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {

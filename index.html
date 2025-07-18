@@ -1,27 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Rhine Ruhr 2025 AI Chat Assistant</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <title>PDF Chatbot (Python + Colab)</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Rhine Ruhr 2025 AI Chat Assistant</h1>
+  <h1>Ask the PDF Chatbot</h1>
+  <form method="get" action="https://colab.research.google.com/github/YOUR-USERNAME/pdf-chatbot/blob/main/chatbot.ipynb" target="_blank">
+    <label for="question">Your question:</label><br>
+    <input type="text" id="question" name="question" placeholder="e.g., When is the opening ceremony?" size="50"><br><br>
+    <input type="submit" value="Ask via Colab">
+  </form>
 
-    <div class="input-group">
-      <textarea id="questionInput" placeholder="Ask me anything..." rows="4"></textarea>
-      <button id="askBtn">Ask</button>
-      <button id="voiceBtn">🎤 Speak</button>
-    </div>
-
-    <div id="answerBox" class="answer-box">
-      <h3>Answer:</h3>
-      <p id="answerText">Your answer will appear here...</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <p><em>Note: This will open Google Colab and you must run the notebook manually.</em></p>
 </body>
 </html>

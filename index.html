@@ -1,16 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PDF Chatbot (Python + Colab)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DPP Chatbot Tester</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #response { margin-top: 10px; padding: 10px; border: 1px solid #ccc; }
+    input, button { padding: 8px; font-size: 16px; }
+  </style>
 </head>
 <body>
-  <h1>Ask the PDF Chatbot</h1>
-  <form method="get" action="https://colab.research.google.com/github/YOUR-USERNAME/pdf-chatbot/blob/main/chatbot.ipynb" target="_blank">
-    <label for="question">Your question:</label><br>
-    <input type="text" id="question" name="question" placeholder="e.g., When is the opening ceremony?" size="50"><br><br>
-    <input type="submit" value="Ask via Colab">
+  <h2>DPP Chatbot Tester</h2>
+  <form id="chat-form">
+    <input type="text" id="message" placeholder="Type your message..." required />
+    <button type="submit">Send</button>
   </form>
+  <div id="response"></div>
 
-  <p><em>Note: This will open Google Colab and you must run the notebook manually.</em></p>
+  <script>
+    document.getElementById('chat-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = document.getElementById('message').value;
+      const responseDiv = document.getElementById('response');
+      responseDiv.textContent = 'Waiting for reply...';
+
+      try {
+        const res = await fetch('https://dpp-chatbot-backend.onrender.com/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await res.json();
+
+        if (data.reply) {
+          responseDiv.textContent = `💬 Bot: ${data.reply}`;
+        } else if (data.error) {
+          responseDiv.textContent = `❌ Error: ${data.error}`;
+        } else {
+          responseDiv.textContent = '❓ Unexpected response from server.';
+        }
+      } catch (err) {
+        console.error(err);
+        responseDiv.textContent = '⚠️ Network error or server not responding.';
+      }
+    });
+  </script>
 </body>
 </html>
